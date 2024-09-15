@@ -20,7 +20,7 @@ TEST =
 FLAGS =
 PYTEST = pytest -n 4 --forked -vv
 
-APIPIE_VERSION ?= v0.3.2
+APIPIE_VERSION ?= v0.4.0
 
 default: help
 help:
@@ -46,7 +46,7 @@ info:
 
 lint: $(MANIFEST) $(RUNTIME_YML) | tests/test_playbooks/vars/server.yml
 	yamllint -f parsable tests/test_playbooks roles
-	ansible-lint -v roles/*
+	ansible-lint -v --offline roles/*
 	ansible-playbook --syntax-check tests/test_playbooks/*.yml | grep -v '^$$'
 	flake8 --ignore=E402,W503 --max-line-length=160 plugins/ tests/
 	GALAXY_IMPORTER_CONFIG=tests/galaxy-importer.cfg python -m galaxy_importer.main $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz
